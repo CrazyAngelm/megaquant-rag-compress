@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+title: "MegaQuant RAG Compress: Low-Bit Document Index Compression"
+message: "If you use this research prototype, please cite this repository."
+type: software
+authors:
+  - family-names: "CrazyAngelm"
+year: 2026
+license: MIT

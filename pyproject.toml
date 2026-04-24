@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "megaquant-rag-compress"
+version = "0.1.0"
+description = "CPU/Python research PoC for low-bit RAG document-index compression."
+requires-python = ">=3.10"
+dependencies = ["numpy", "pandas", "scikit-learn"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.DS_Store
+.pytest_cache/
+*.egg-info/
+/squad_train_v1.1.json
+/squad_dev_v1.1.json
+/results/tmp/
