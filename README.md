@@ -22,6 +22,12 @@ Why this appears to be the best tradeoff under this benchmark's assumptions:
 - query vectors are transient in this setup;
 - in this benchmark, keeping queries float32 preserves retrieval quality better than quantizing both sides.
 
+## Related repository
+
+KV-cache companion project:
+
+- https://github.com/CrazyAngelm/megaquant-kv-cache
+
 ## Benchmark setup
 
 ```text
@@ -134,6 +140,10 @@ Current reports:
 
 - `results/frontier_rag_benchmark.csv`
 
+## Changelog
+
+- `CHANGELOG.md`
+
 ## Related prior-work topics
 
 A public-facing version should position this against standard retrieval compression and ANN topics: scalar quantization, product quantization (PQ/OPQ), residual quantization, binary quantization, HNSW/IVF/ScaNN, BEIR/MTEB evaluation, exact search versus ANN serving, and static index compression versus query-time compression.
@@ -160,7 +170,7 @@ Conservative claim:
 
 ## Repository positioning
 
-This repository is private for review first. It is a research PoC for compressed RAG/vector indexes, not a production vector database engine yet.
+This repository is public as a research PoC for compressed RAG/vector indexes. It is not a production vector database engine.
 
 Suggested GitHub topics after public release:
 
