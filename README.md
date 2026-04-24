@@ -1,36 +1,44 @@
 # MegaQuant RAG Compress
 
-MegaQuant RAG Compress is a **CPU/Python research proof-of-concept** for low-bit compression of stored RAG/document vectors.
+[![Research PoC](https://img.shields.io/badge/status-research%20PoC-blue)](#scope)
+[![CPU/Python](https://img.shields.io/badge/benchmark-CPU%2FPython-lightgrey)](#scope)
+[![Stored vectors](https://img.shields.io/badge/accounting-stored--vector--payload-green)](#scope)
 
-It tests whether MegaQuant-style quantization can reduce stored vector payload size while preserving retrieval metrics in a small exact-search benchmark.
+**Low-bit compression experiments for stored RAG/document vectors.**
 
-> Scope warning: this is not a production vector database, ANN, FAISS, Qdrant, Milvus, LanceDB, GPU, or large-scale embedding benchmark.
+## At a glance
 
-## Current headline, scoped carefully
+In a small SQuAD exact-search proxy benchmark, the best current document-only method gives:
 
-In this CPU/Python exact-search benchmark, the best-performing configuration we tested is **document-only index compression**:
+| What you care about | Result | Compared with |
+|---|---:|---|
+| Stored-vector payload size | **9.77% of float32** | **10.24x compression / 90.23% saving** vs float32 |
+| Retrieval quality | **98.69% recall@1 retention** | `0.440009` vs `0.445840` float32 recall@1 |
+| Better than old local baseline | **55.34% smaller** and **+4.92% recall@1** | vs older `blockwise_seven_level_3bit` result |
+
+Main method:
 
 ```text
 doconly_affine3_g64_meta4
+3.126250 effective bits/dim
+0.440009 recall@1
+98.69% recall@1 retention vs float32
 ```
 
-It compresses stored document vectors but keeps query vectors float32 at search time.
+Why document-only? In this benchmark, document vectors are the stored index payload, while query vectors are transient. Keeping queries float32 preserves quality better than quantizing both sides.
 
-Why this appears to be the best tradeoff under this benchmark's assumptions:
+## Scope
 
-- document vectors are the stored payload being compressed;
-- query vectors are transient in this setup;
-- in this benchmark, keeping queries float32 preserves retrieval quality better than quantizing both sides.
+This repository is a **research proof-of-concept**, not a production vector database.
 
-## Plain-language comparison
+The numbers above are:
 
-For readers who just want the headline numbers:
+- from a small CPU/Python exact-search proxy benchmark,
+- based on TF-IDF + random projection vectors, not modern embedding models,
+- modeled stored-vector payload accounting,
+- not total vector-database memory.
 
-- vs **float32 stored vectors**: `doconly_affine3_g64_meta4` uses about **9.77%** of the modeled stored-vector payload, i.e. about **90.23% memory saving** and about **10.24x compression**.
-- vs **float32 retrieval quality** in this benchmark: it retains about **98.69% of float32 recall@1** (`0.440009` vs `0.445840`).
-- vs the older local MegaQuant legacy baseline `blockwise_seven_level_3bit`: it reduces effective bits from `7.000000` to `3.126250`, making the compressed stored-vector payload about **55.34% smaller**, while recall@1 is about **4.92% higher** (`0.440009` vs `0.419377`).
-
-These are benchmark-local modeled stored-vector payload comparisons, not total vector-database-memory or ANN-serving claims.
+They are **not** claims about FAISS/Qdrant/Milvus/LanceDB, ANN serving, HNSW/IVF memory, GPU search, or BEIR/MTEB quality.
 
 ## Related repository
 
