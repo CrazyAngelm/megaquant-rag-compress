@@ -22,6 +22,16 @@ Why this appears to be the best tradeoff under this benchmark's assumptions:
 - query vectors are transient in this setup;
 - in this benchmark, keeping queries float32 preserves retrieval quality better than quantizing both sides.
 
+## Plain-language comparison
+
+For readers who just want the headline numbers:
+
+- vs **float32 stored vectors**: `doconly_affine3_g64_meta4` uses about **9.77%** of the modeled stored-vector payload, i.e. about **90.23% memory saving** and about **10.24x compression**.
+- vs **float32 retrieval quality** in this benchmark: it retains about **98.69% of float32 recall@1** (`0.440009` vs `0.445840`).
+- vs the older local MegaQuant legacy baseline `blockwise_seven_level_3bit`: it reduces effective bits from `7.000000` to `3.126250`, making the compressed stored-vector payload about **55.34% smaller**, while recall@1 is about **4.92% higher** (`0.440009` vs `0.419377`).
+
+These are benchmark-local modeled stored-vector payload comparisons, not total vector-database-memory or ANN-serving claims.
+
 ## Related repository
 
 KV-cache companion project:
